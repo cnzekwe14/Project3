@@ -1,38 +1,34 @@
-from flask import Flask, render_template
-import sqlalchemy
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
 import sqlite3
+from flask import Flask, render_template
 
 app = Flask(__name__, template_folder = "templates")
 
-@app.route("/")
-def home():
-    print("Server received request for 'Home' page...")
-#     connect = sqlite3.connect('births.db')
-#     cursor = connect.cursor()
-#     cursor.execute('SELECT * FROM birthstate6')
-    
-#     import pandas as pd
-# # Create your connection.
-#     cnx = sqlite3.connect('births.db')
-
-#     df = pd.read_sql_query("SELECT * FROM birthstate6", cnx)
-#     df
-    
-
-    # return render_template("index.html")
-
-    with sqlite3.connect("births.db") as users:
-                cursor = users.cursor()
-                cursor.execute("SELECT * FROM birthstate6")
-                users.commit()
-                
+@app.route('/')
+def part1():
     return render_template("index.html")
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route('/births')
+def part2():
+    conn = sqlite3.connect("births.db")
+    cur = conn.cursor()
+    cursor = cur.execute('SELECT DISTINCT YEAR FROM birthstate6')
+    items = cursor.fetchall()
+    vi = []
+    # for x in items:
+    #     vi.append(x)
+        
+    return render_template("index.html",items=items)
+    # # for item in items:
+    # #     print(item)
     
-      
+# conn1 = sqlite3.connect("birth_rate.db")
+# cur1 = conn.cursor()
+# cursor1 = cur.execute('SELECT * FROM birth_data2')
+# items1 = cursor.fetchall()
+# return render_template("births.html",items=items)
+
+    
+    
+
+if __name__ == '__main__':
+    app.run(debug = True)
