@@ -13,13 +13,9 @@ def part2():
     cur = conn.cursor()
     cursor = cur.execute('SELECT DISTINCT YEAR FROM birthstate6')
     items = cursor.fetchall()
-    vi = []
-    # for x in items:
-    #     vi.append(x)
         
     return render_template("index.html",items=items)
-    # # for item in items:
-    # #     print(item)
+  
     
 # conn1 = sqlite3.connect("birth_rate.db")
 # cur1 = conn.cursor()
