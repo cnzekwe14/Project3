@@ -10,9 +10,11 @@ def part1():
 @app.route('/births')
 def part2():
     conn = sqlite3.connect("births.db")
+    conn.row_factory = lambda cursor, row: row[0]
     cur = conn.cursor()
     cursor = cur.execute('SELECT DISTINCT YEAR FROM birthstate6')
     items = cursor.fetchall()
+    
         
     return render_template("index.html",items=items)
   
