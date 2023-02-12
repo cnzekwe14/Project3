@@ -13,12 +13,11 @@ def part2():
     conn = sqlite3.connect("births.db")
     conn.row_factory = lambda cursor, row: row[0]
     cur = conn.cursor()
-    cursor = cur.execute('SELECT DISTINCT YEAR FROM birthstate6 WHERE YEAR NOT 2005')
+    cursor = cur.execute('SELECT DISTINCT YEAR FROM birthstate6 WHERE YEAR != 2005')
     years1 = cursor.fetchall()
-    cursor1 = cur.execute('SELECT ROUND(AVG(FERTILITY_RATE),1) FROM birthstate6 GROUP BY YEAR ORDER BY YEAR DESC')
+    cursor1 = cur.execute('SELECT ROUND(AVG(FERTILITY_RATE),1) FROM birthstate6 WHERE YEAR != 2005 GROUP BY YEAR ORDER BY YEAR DESC')
     fertility1 = cursor1.fetchall()
     
-    # textuserstate = getRequestString('UserS')
     cursor2 = cur.execute('SELECT STATE FROM birthstate6')
     state1 = cursor2.fetchall()
     df = pd.DataFrame({
@@ -30,7 +29,31 @@ def part2():
     chart_data = df.to_dict(orient='records')
      
     return jsonify(chart_data)
-  
+
+@app.route('/birth_rate')
+def part3():
+    conn1 = sqlite3.connect("birth_rate.db")
+    cur1 = conn1.cursor()
+    cursor1 = cur1.execute('SELECT YEAR FROM birth_data2')
+    years2 = cursor1.fetchall()
+    cursor3 = cur1.execute('SELECT fertility_age_women FROM birth_data2')
+    fertility2 = cursor3.fetchall()
+    list1 = []
+    list2 = []
+    totals = len(years2)
+    i=0
+    while i<totals:
+        yy = years2[i][0]
+        xx = fertility2[i][0]
+        list1.append(yy)
+        list2.append(xx)
+        i+=1
+    df1 = pd.DataFrame({
+        'x': list1,
+        'y': list2
+    })
+    chart_data2 = df1.to_dict(orient='records')
+    return jsonify(chart_data2)
     
 # conn1 = sqlite3.connect("birth_rate.db")
 # cur1 = conn.cursor()
