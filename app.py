@@ -54,13 +54,64 @@ def part3():
     })
     chart_data2 = df1.to_dict(orient='records')
     return jsonify(chart_data2)
+  
+  
+@app.route('/birth_map')
+def part4():
+    conn = sqlite3.connect("births.db")
+    conn.row_factory = lambda cursor, row: row[0]
+    cur = conn.cursor()
+    cursor = cur.execute('SELECT DISTINCT YEAR FROM birthstate6 WHERE YEAR = 2020')
+    years1 = cursor.fetchall()
+    cursor1 = cur.execute('SELECT FERTILITY_RATE FROM birthstate6 WHERE YEAR = 2020')
+    fertility_rate = cursor1.fetchall()
+    cursor2 = cur.execute('SELECT DISTINCT STATE FROM birthstate6 WHERE YEAR = 2020')
+    state = cursor2.fetchall()
+    df = pd.DataFrame({
+        'x': fertility_rate,
+        'y': state
+    })
+    chart_data3 = df.to_dict(orient='records')
+    return jsonify(chart_data3)
     
+
+# @app.route('/drop1')
+# def part5():
+#     conn3 = sqlite3.connect("births.db")
+#     cur3 = conn3.cursor()
+#     a = cur3.execute('SELECT YEAR FROM birthstate6')
+#     a1 = a.fetchall()
+#     b = cur3.execute('SELECT STATE FROM birthstate6')
+#     b1 = b.fetchall()
+#     c = cur3.execute('SELECT BIRTHS FROM birthstate6')
+#     c1 = c.fetchall()
+#     list3 = []
+#     list4 = []
+#     list5 = []
+#     total2 = len(a1)
+#     i=0
+#     while i<total2:
+#         a2 = a1[i][0]
+#         b2 = b1[i][0]
+#         c2 = c1[i][0]
+#         list3.append(a2)
+#         list4.append(b2)
+#         list5.append(c2)
+#         i+=1
+#     df3 = pd.DataFrame({
+#         'x':list3,
+#         'y':list4,
+#         'z':list5
+#     })
+    
+#     chart_data4 = df3.to_dict(orient='records')
+#     return jsonify(chart_data4)
 # conn1 = sqlite3.connect("birth_rate.db")
 # cur1 = conn.cursor()
 # cursor1 = cur.execute('SELECT * FROM birth_data2')
 # items1 = cursor.fetchall()
 # return render_template("births.html",items=items)
-
+    return jsonify(all1)
     
     
 

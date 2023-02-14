@@ -3,13 +3,19 @@
         
         <script src="https://d3js.org/d3.v5.min.js"></script>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
         <meta charset="UTF-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
         <title>Basic Charts</title>  
     </head>
     <body>
-        <h3> HTML list using JavaScript using for loop</h3>
+        <h3> US Birth Data</h3>
+        <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        
+        
+        </div>
+        <div id ='map'></div>
         <div id='bar'></div>
         <div id='line-chart'></div>
         <script src="static/birthrate.js"></script>
